@@ -34,8 +34,7 @@ app.post('/calculations', function(request, response){ // I changed the name to 
   let inlineCheckbox1 = request.body.inlineCheckbox1;
   let inlineCheckbox2 = request.body.inlineCheckbox2;
   let inlineCheckbox3 = request.body.inlineCheckbox3;
-  let inlineCheckbox4 = request.body.inlineCheckbox4;
-  let inlineCheckbox5 = request.body.inlineCheckbox5;
+
 
   //Calculations for bmi
   height = (parseFloat(heightFeet) + parseFloat(heightInches)) / 39.37; //takes total height and converts it to meters
@@ -57,12 +56,6 @@ app.post('/calculations', function(request, response){ // I changed the name to 
   }
   if (inlineCheckbox3 == true){
     totalScore += 10
-  }
-  if (inlineCheckbox4 == true){
-    totalScore += 5
-  }
-  if (inlineCheckbox5 == true){
-    totalScore += 5
   }
 
   //Calculations for age
