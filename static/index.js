@@ -10,11 +10,9 @@ async function calculations() {
     const inlineCheckbox1 = document.getElementById("inlineCheckbox1").checked
     const inlineCheckbox2 = document.getElementById("inlineCheckbox2").checked
     const inlineCheckbox3 = document.getElementById("inlineCheckbox3").checked
-   
 
     //converts input data to JSON format
-    const body = JSON.stringify({ weight, heightFeet, heightInches, age, selectBP, inlineCheckbox1, inlineCheckbox2, inlineCheckbox3, inlineCheckbox4, inlineCheckbox5});
-    //request header specifics
+    const body = JSON.stringify({ weight, heightFeet, heightInches, age, selectBP, inlineCheckbox1, inlineCheckbox2, inlineCheckbox3});
     const headers = { 'Content-Type': 'application/json' }
 
     //sends request and stores response in a variable
