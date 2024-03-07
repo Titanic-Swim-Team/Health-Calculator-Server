@@ -1,37 +1,126 @@
-const express = require("express");
-const bodyParser = require('body-parser');
-const app = express();
+const express = require('express')
+const bodyParser = require('body-parser')
+app = express()
 
-app.use(bodyParser.json());
+var url = require('url');
+var dt = require('./date-time');
 
-app.use(express.static(__dirname + '/client'))
+app.use(bodyParser.json())
 
 const port = process.env.PORT || 3000
 
-// Calculate BMI using the POST method with a JSON request and a JSON response.
-app.post('/calculate-bmi', function(request, response){
-	console.log('\nCalculate BMI: ' + JSON.stringify(request.body));
+// Use Express to publish static HTML, CSS, and JavaScript files that run in the browser. 
+app.use(express.static(__dirname + '/static'))
+app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-	// Get height from request body JSON and convert height from centimeters to meters.
-	const hightInCentiMeters = request.body.heightInCentimeters;
-	const heightInMeters = hightInCentiMeters * 0.01; /* 1m = 100cm */
-
-	// Get weight from request body JSON. 
-	const weightInKilograms = request.body.weightInKilograms;
-
-	// Calculate BMI and calculate BMI rounded it to two decimal places. 
-	const bmi = (weightInKilograms / (heightInMeters * heightInMeters));
-	const bmiTo2DecimalPlaces = Math.round(bmi * 100) / 100;
-
-	// Create JSON response that includes both BMI and BMI rounded to two decimal places.
-	const responseJSON = JSON.stringify({ bmi:bmi, bmiRounded:bmiTo2DecimalPlaces });
-
-	response.json(responseJSON);
-
-	console.log('Response: ' + responseJSON);
+// The app.get functions below are being processed in Node.js running on the server.
+// Implement a custom About page.
+app.get('/about', (request, response) => {
+	console.log('Calling "/about" on the Node.js server.')
+	response.type('text/plain')
+	response.send('About Node.js on Azure Template.')
 })
 
-app.listen(port, () => console.log(`Calculate BMI started at \'http://localhost:${port}\'\n` +
+// Sends back BMI based on weight and height data recieved.
+app.post('/calculations', function(request, response){ // I changed the name to calculations instead of calculate bmi
+	console.log(request.body);
+  totalScore = 0;
+	let weight = request.body.weight * 0.45359237; //converts pounds to kilograms
+	let heightFeet = request.body.heightFeet *12; //Changes feet to inches
+  let heightInches = request.body.heightInches;
+  let age = request.body.age;
+  let selectBP = request.body.selectBP;
+  let inlineCheckbox1 = request.body.inlineCheckbox1;
+  let inlineCheckbox2 = request.body.inlineCheckbox2;
+  let inlineCheckbox3 = request.body.inlineCheckbox3;
+  let inlineCheckbox4 = request.body.inlineCheckbox4;
+  let inlineCheckbox5 = request.body.inlineCheckbox5;
+
+  //Calculations for bmi
+  height = (parseFloat(heightFeet) + parseFloat(heightInches)) / 39.37; //takes total height and converts it to meters
+	bmiresult = (weight / (height * height)).toFixed(2); //computes BMI
+  bmiresult = parseFloat(bmiresult);
+  if (bmiresult >= 25 && bmiresult <= 29.9){
+    totalScore += 30;
+  }else if (bmiresult >= 30){
+    totalScore += 75;
+  } else {
+    totalScore += 0;
+  }
+  // Calculations for family-disease
+  if (inlineCheckbox1 == true){
+    totalScore += 10
+  }
+  if(inlineCheckbox2 == true){
+    totalScore += 10
+  }
+  if (inlineCheckbox3 == true){
+    totalScore += 10
+  }
+  if (inlineCheckbox4 == true){
+    totalScore += 5
+  }
+  if (inlineCheckbox5 == true){
+    totalScore += 5
+  }
+
+  //Calculations for age
+  if (age < 30){
+    totalScore += 0;
+  }else if (age >= 30 && age < 45){
+    totalScore += 10;
+  } else if (age >= 45 && age < 60){
+    totalScore += 20;
+  } else {
+    totalScore += 30;
+  }
+  
+  // Blood Pressure Calculations
+  if (selectBP == "Normal"){
+    totalScore += 0;
+  } else if (selectBP == "Elevated"){
+    totalScore += 15;
+  }else if (selectBP == "Stage 1"){
+    totalScore += 30;
+  }else if (selectBP == "Stage 2"){
+    totalScore += 75;
+  } else {
+    totalScore += 100;
+  }
+  //Returns what the patients final results
+  finalOutcome = ""
+  if (totalScore <= 20){
+    finalOutcome = "You are at low risk"
+  } else if ( totalScore > 20 && totalScore <= 50){
+    finalOutcome = "You are at moderate risk"
+  }else if ( totalScore > 50 && totalScore <= 75){
+    finalOutcome = "You are at high risk"
+  }else{
+    finalOutcome = "You are at uninsurable"
+  }
+
+  const responseText = JSON.stringify(finalOutcome)
+	response.json(responseText)
+  console.log(responseText)
+})
+
+// Custom 404 page.
+app.use((request, response) => {
+  response.type('text/plain')
+  response.status(404)
+  response.send('404 - Not Found')
+})
+
+// Custom 500 page.
+app.use((err, request, response, next) => {
+  console.error(err.message)
+  response.type('text/plain')
+  response.status(500)
+  response.send('500 - Server Error')
+})
+
+app.listen(port, () => console.log(
+  `Express started at \"http://localhost:${port}\"\n` +
   `press Ctrl-C to terminate.`)
 )
-
