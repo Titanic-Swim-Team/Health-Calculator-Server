@@ -13,13 +13,13 @@
 <p>This application will calculate your risk profile for health insurance based on age, blood pressure, family history of disease, and your body-mass index. Please fill out the form with your information and press the "calculate" button to receive your results.</p>
 
 <main>
-    <div>
-        <h3>Calculate your insurance risk:</h3>
+<div>
+  <h3>Calculate your insurance risk:</h3>
             <!--Creates the form -->
-            <div class="form-group">
+    <div class="form-group">
               <label for="inputage">Enter your age:</label>
               <input type="age" class="form-control" id="age" placeholder="Your age">
-            </div>
+    </div>
             <br>
             
             <div class="form-group">
@@ -32,19 +32,19 @@
                 <option>Crisis</option>
               </select>
             </div>
-            <br>
+    <img src="chart.png" width="500" height="269" alt=""/> <br>
             <!-- Check Boxes for Diseses -->
             <div class="form-check form-check-inline">
                 <label for="form-check-input">Select Family Diseases if any:</label>
                 <br>
                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="">
                 <label class="form-check-label" for="inlineCheckbox1">Diabetes</label>
-              </div>
+    </div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="">
                 <label class="form-check-label" for="inlineCheckbox2">Cancer</label>
               </div>
-              <div class="form-check form-check-inline">
+    <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="">
                 <label class="form-check-label" for="inlineCheckbox3">Alzheimers</label>
               </div>
@@ -53,12 +53,15 @@
               <!--Calculating the BMI and results-->
         
         <h3>Body Mass Index:</h3>
-          <label for="inputweight">Enter your body weight in pounds:</label>
-        <input type="weight" class="form-control" id="weight"/>lb
+        <img src="bmi.png" width="300" height="132" alt=""/>
+<label for="inputweight"><br>
+  Enter your body weight in pounds:</label>
+        <input type="weight" class="form-control" id="weight"/>
+        lb
         <br>
         <label>Enter your height in feet/inches:</label>
-        <input name="heightFeet" id="heightFeet"/>ft    
-        <input name="heightInches" id="heightInches"/>in
+    <input name="heightFeet" id="heightFeet"/>ft    
+    <input name="heightInches" id="heightInches"/>in
         <br>
         <input onclick="calculations()" type="submit" value="Calculate" class="button" />
         <br><br>
@@ -67,7 +70,7 @@
         <br>
         <h2>Created By: TitanicSwimTeam</h2>
         
-    </div>
+  </div>
 </main>
 
 </body>
