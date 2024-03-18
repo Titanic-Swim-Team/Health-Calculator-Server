@@ -1,1 +1,2 @@
-# merna-static-website-on-azure-template
+# Health Calculator Server
+This is the server for the Health Risk Calculator 
